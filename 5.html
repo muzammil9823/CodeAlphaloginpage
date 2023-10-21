@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Authentication System</title>
+    <style>
+        body {
+            background-color: #444;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login Authentication System</h2>
+        <div id="registration">
+            <h3>Register</h3>
+            <input type="text" id="reg-username" placeholder="Username">
+            <input type="password" id="reg-password" placeholder="Password">
+            <button onclick="register()">Register</button>
+        </div>
+        <div id="login" style="display: none;">
+            <h3>Login</h3>
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+        <div id="secured" style="display: none;">
+            <h3>Secured Page</h3>
+            <p>Welcome to the secured page!</p>
+            <p>Your secret code is: <span id="secret-code"></span></p>
+        </div>
+    </div>
+
+    <script>
+        let registeredUsers = {};
+
+        function register() {
+            const regUsername = document.getElementById('reg-username').value;
+            const regPassword = document.getElementById('reg-password').value;
+
+            if (regUsername && regPassword) {
+                registeredUsers[regUsername] = regPassword;
+                alert('Registration successful!');
+                toggleForms('registration');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        function login() {
+            const loginUsername = document.getElementById('login-username').value;
+            const loginPassword = document.getElementById('login-password').value;
+
+            if (registeredUsers[loginUsername] === loginPassword) {
+                document.getElementById('secured').style.display = 'block';
+                document.getElementById('secret-code').textContent = generateSecretCode();
+                toggleForms('login');
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+
+        function toggleForms(activeForm) {
+            if (activeForm === 'registration') {
+                document.getElementById('registration').style.display = 'none';
+                document.getElementById('login').style.display = 'block';
+            } else if (activeForm === 'login') {
+                document.getElementById('registration').style.display = 'none';
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('secured').style.display = 'block';
+            }
+        }
+
+        function generateSecretCode() {
+            return Math.floor(Math.random() * 10000);
+        }
+    </script>
+</body>
+</html>
